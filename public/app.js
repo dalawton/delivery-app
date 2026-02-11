@@ -242,7 +242,19 @@ async function loadRestaurants() {
     }
 
     const response = await fetch(url);
-    restaurants = await response.json();
+    const data = await response.json();
+    
+    // Ensure data is an array
+    if (!Array.isArray(data)) {
+      console.error('API returned non-array response:', data);
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      restaurants = [];
+    } else {
+      restaurants = data;
+    }
+    
     renderRestaurants();
     renderCategories();
   } catch (error) {
@@ -259,7 +271,19 @@ async function loadOrders() {
 
   try {
     const response = await fetch(`${API_URL}/orders?email=${currentUser.email}`);
-    userOrders = await response.json();
+    const data = await response.json();
+    
+    // Ensure data is an array
+    if (!Array.isArray(data)) {
+      console.error('API returned non-array response:', data);
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      userOrders = [];
+    } else {
+      userOrders = data;
+    }
+    
     renderOrders();
   } catch (error) {
     console.error('Error loading orders:', error);
