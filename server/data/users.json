@@ -78,5 +78,48 @@
     "address": "5566 Spruce St, Newark, NJ 07102",
     "role": "customer",
     "created_at": "2026-01-22T20:15:00Z"
+  },
+  {
+    "id": 9,
+    "name": "William Brown",
+    "email": "william.brown@gmail.com",
+    "password": "$2b$10$StUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQr",
+    "phone": "908-555-3344",
+    "address": "7788 Aspen St, Yonkers, NY 10701",
+    "role": "admin",
+    "created_at": "2026-01-25T13:20:00Z"
+  },
+  {
+    "id": 10,
+    "name": "Marco Rossi",
+    "email": "marco.rossi@pizzapalace.com",
+    "password": "$2b$10$QqWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrSt",
+    "phone": "212-555-1234",
+    "address": "789 Broadway, New York, NY",
+    "role": "restaurant_owner",
+    "restaurant_id": 1,
+    "created_at": "2026-01-28T08:30:00Z"
+  },
+  {
+    "id": 11,
+    "name": "Bart Simpson",
+    "email": "bart.simpson@burgerbarn.com",
+    "password": "$2b$10$YzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWx",
+    "phone": "212-555-5678",
+    "address": "321 5th Ave, New York, NY",
+    "role": "restaurant_owner",
+    "restaurant_id": 2,
+    "created_at": "2026-01-28T09:15:00Z"
+  },
+  {
+    "id": 12,
+    "name": "Yuki Tanaka",
+    "email": "yuki.tanaka@sushiworld.com",
+    "password": "$2b$10$AbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYz",
+    "phone": "212-555-9999",
+    "address": "654 Park Ave, New York, NY",
+    "role": "restaurant_owner",
+    "restaurant_id": 3,
+    "created_at": "2026-01-28T10:00:00Z"
   }
 ]

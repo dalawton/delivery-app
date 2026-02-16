@@ -1020,3 +1020,99 @@ body {
     font-size: 20px;
   }
 }
+/* Owner Dashboard Styles */
+#ownerDashboard {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#ownerDashboard h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.restaurants-list {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.restaurant-item {
+  background: rgba(255, 107, 53, 0.05) !important;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  transition: all 0.3s ease;
+}
+
+.restaurant-item:hover {
+  background: rgba(255, 107, 53, 0.1) !important;
+  border-color: rgba(255, 107, 53, 0.4);
+}
+
+.menu-items-list {
+  display: grid;
+  gap: 8px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.menu-items-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.menu-items-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.menu-items-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 53, 0.5);
+  border-radius: 10px;
+}
+
+.menu-items-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 53, 0.7);
+}
+
+.menu-item-row {
+  background: rgba(108, 92, 231, 0.05) !important;
+  border: 1px solid rgba(108, 92, 231, 0.2);
+  transition: all 0.3s ease;
+}
+
+.menu-item-row:hover {
+  background: rgba(108, 92, 231, 0.1) !important;
+  border-color: rgba(108, 92, 231, 0.4);
+}
+
+.edit-btn, .delete-btn {
+  transition: all 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.delete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+textarea {
+  font-family: 'Outfit', sans-serif;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 12px;
+  resize: vertical;
+}
+
+textarea::placeholder {
+  color: var(--text-muted);
+}

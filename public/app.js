@@ -13,6 +13,10 @@ let currentRestaurant = null;
 let userOrders = [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let searchQuery = '';
+let ownerRestaurants = [];
+let ownerMenuItems = [];
+let editingRestaurantId = null;
+let editingMenuItemId = null;
 
 // DOM Elements
 let authScreen, mainApp, authContent, authSubtitle;
@@ -22,6 +26,10 @@ let cartItemsContainer, cartFooter, cartTotal;
 let checkoutBtn, checkoutModal, checkoutForm, cancelCheckout;
 let searchInput, userName, userRole, logoutBtn, ordersBtn;
 let backToRestaurantsBtn, restaurantDetailSection, browseSection, ordersSection;
+let ownerDashboard, ownerRestaurantsList, ownerMenuItemsList, addRestaurantBtn, addMenuItemBtn;
+let restaurantModal, restaurantForm, restaurantModalTitle;
+let menuItemModal, menuItemForm, menuItemModalTitle;
+let navTabs;
 
 function initializeDOM() {
   authScreen = document.getElementById('authScreen');
@@ -58,6 +66,23 @@ function initializeDOM() {
   
   browseSection = document.getElementById('browseSection');
   ordersSection = document.getElementById('ordersSection');
+  
+  // Owner dashboard elements
+  ownerDashboard = document.getElementById('ownerDashboard');
+  ownerRestaurantsList = document.getElementById('ownerRestaurantsList');
+  ownerMenuItemsList = document.getElementById('ownerMenuItemsList');
+  addRestaurantBtn = document.getElementById('addRestaurantBtn');
+  addMenuItemBtn = document.getElementById('addMenuItemBtn');
+  
+  restaurantModal = document.getElementById('restaurantModal');
+  restaurantForm = document.getElementById('restaurantForm');
+  restaurantModalTitle = document.getElementById('restaurantModalTitle');
+  
+  menuItemModal = document.getElementById('menuItemModal');
+  menuItemForm = document.getElementById('menuItemForm');
+  menuItemModalTitle = document.getElementById('menuItemModalTitle');
+  
+  navTabs = document.getElementById('navTabs');
 }
 
 // ==================== AUTHENTICATION ====================
@@ -72,7 +97,26 @@ function showMainApp() {
   authScreen.style.display = 'none';
   mainApp.classList.add('active');
   updateUserDisplay();
-  loadRestaurants();
+  
+  if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'restaurant_owner')) {
+    // Show owner/admin dashboard
+    browseSection.classList.remove('active');
+    ordersSection.classList.remove('active');
+    ownerDashboard.classList.add('active');
+    navTabs.style.display = 'none';
+    searchInput.parentElement.style.display = 'none';
+    cartBtn.style.display = 'none';
+    loadOwnerRestaurants();
+    loadOwnerMenuItems();
+    attachOwnerEventListeners();
+  } else {
+    // Show customer interface
+    navTabs.style.display = 'flex';
+    searchInput.parentElement.style.display = 'flex';
+    cartBtn.style.display = 'block';
+    ownerDashboard.classList.remove('active');
+    loadRestaurants();
+  }
 }
 
 function renderInitialAuthScreen() {
@@ -121,8 +165,8 @@ function renderRoleSelection() {
       <div class="role-card" data-role="restaurant">
         <div class="role-icon">${icons.store}</div>
         <div class="role-info">
-          <h3>Restaurant</h3>
-          <p>Manage your menu</p>
+          <h3>Restaurant Owner</h3>
+          <p>Manage your restaurant</p>
         </div>
       </div>
     </div>
@@ -805,6 +849,319 @@ function attachEventListeners() {
       loadRestaurants();
     }, 500);
   });
+}
+
+// ==================== RESTAURANT OWNER FUNCTIONS ====================
+
+async function loadOwnerRestaurants() {
+  try {
+    const response = await fetch(`${API_URL}/restaurants`);
+    if (response.ok) {
+      const allRestaurants = await response.json();
+      // If admin, show all restaurants. Otherwise, filter to only restaurants owned by the current user
+      if (currentUser.role === 'admin') {
+        ownerRestaurants = allRestaurants;
+      } else {
+        ownerRestaurants = allRestaurants.filter(r => r.owner_id === currentUser.id);
+      }
+      renderOwnerRestaurants();
+    }
+  } catch (error) {
+    console.error('Error loading restaurants:', error);
+  }
+}
+
+function renderOwnerRestaurants() {
+  if (!ownerRestaurants.length) {
+    ownerRestaurantsList.innerHTML = '<p style="text-align: center; color: #B8B9D1;">No restaurants yet. Create one to get started!</p>';
+    return;
+  }
+
+  ownerRestaurantsList.innerHTML = ownerRestaurants.map(restaurant => `
+    <div class="restaurant-item" style="padding: 16px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 12px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+        <div>
+          <h3 style="margin: 0 0 4px 0; color: #FF6B35;">${restaurant.name}</h3>
+          <p style="margin: 0; color: #B8B9D1; font-size: 14px;">${restaurant.cuisine} • ${restaurant.address}</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="edit-btn" data-restaurant-id="${restaurant.id}" style="padding: 6px 12px; background: #6C5CE7; border: none; border-radius: 8px; color: white; cursor: pointer; font-size: 12px;">Edit</button>
+          <button class="delete-btn" data-type="restaurant" data-id="${restaurant.id}" style="padding: 6px 12px; background: #FF4757; border: none; border-radius: 8px; color: white; cursor: pointer; font-size: 12px;">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Add event listeners
+  ownerRestaurantsList.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const restaurantId = btn.dataset.restaurantId;
+      const restaurant = ownerRestaurants.find(r => r.id == restaurantId);
+      if (restaurant) {
+        editRestaurant(restaurant);
+      }
+    });
+  });
+
+  ownerRestaurantsList.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this restaurant?')) {
+        deleteRestaurant(parseInt(btn.dataset.id));
+      }
+    });
+  });
+}
+
+async function loadOwnerMenuItems() {
+  // If admin, show all menu items. Otherwise, filter by owned restaurants
+  try {
+    const response = await fetch(`${API_URL}/menu-items`);
+    if (response.ok) {
+      const allItems = await response.json();
+      if (currentUser.role === 'admin') {
+        ownerMenuItems = allItems;
+      } else {
+        // Get IDs of restaurants owned by this user
+        const ownedRestaurantIds = ownerRestaurants.map(r => r.id);
+        // Filter menu items to only those in owned restaurants
+        ownerMenuItems = allItems.filter(item => ownedRestaurantIds.includes(item.restaurant_id));
+      }
+      renderOwnerMenuItems();
+    }
+  } catch (error) {
+    console.error('Error loading menu items:', error);
+  }
+}
+
+function renderOwnerMenuItems() {
+  if (!ownerMenuItems.length) {
+    ownerMenuItemsList.innerHTML = '<p style="text-align: center; color: #B8B9D1;">No menu items yet. Add one to get started!</p>';
+    return;
+  }
+
+  ownerMenuItemsList.innerHTML = ownerMenuItems.map(item => `
+    <div class="menu-item-row" style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h4 style="margin: 0 0 4px 0; color: #FF6B35;">${item.name}</h4>
+        <p style="margin: 0; color: #B8B9D1; font-size: 13px;">$${item.price.toFixed(2)}</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="edit-menu-btn" data-menu-id="${item.id}" style="padding: 6px 12px; background: #6C5CE7; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 12px;">Edit</button>
+        <button class="delete-btn" data-type="menuitem" data-id="${item.id}" style="padding: 6px 12px; background: #FF4757; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 12px;">Delete</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Add event listeners
+  ownerMenuItemsList.querySelectorAll('.edit-menu-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const menuId = btn.dataset.menuId;
+      const item = ownerMenuItems.find(m => m.id == menuId);
+      if (item) {
+        editMenuItem(item);
+      }
+    });
+  });
+
+  ownerMenuItemsList.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this menu item?')) {
+        deleteMenuItem(parseInt(btn.dataset.id));
+      }
+    });
+  });
+}
+
+function editRestaurant(restaurant) {
+  editingRestaurantId = restaurant.id;
+  restaurantModalTitle.textContent = 'Edit Restaurant';
+  document.getElementById('restaurantName').value = restaurant.name;
+  document.getElementById('restaurantCuisine').value = restaurant.cuisine;
+  document.getElementById('restaurantAddress').value = restaurant.address;
+  document.getElementById('restaurantRating').value = restaurant.rating;
+  document.getElementById('restaurantDeliveryTime').value = restaurant.delivery_time;
+  restaurantModal.classList.add('active');
+}
+
+function editMenuItem(item) {
+  editingMenuItemId = item.id;
+  menuItemModalTitle.textContent = 'Edit Menu Item';
+  document.getElementById('menuItemName').value = item.name;
+  document.getElementById('menuItemDescription').value = item.description || '';
+  document.getElementById('menuItemPrice').value = item.price;
+  document.getElementById('menuItemImageUrl').value = item.image_url || '';
+  menuItemModal.classList.add('active');
+}
+
+function closeRestaurantModal() {
+  restaurantModal.classList.remove('active');
+  editingRestaurantId = null;
+  restaurantForm.reset();
+  restaurantModalTitle.textContent = 'Add Restaurant';
+}
+
+function closeMenuItemModal() {
+  menuItemModal.classList.remove('active');
+  editingMenuItemId = null;
+  menuItemForm.reset();
+  menuItemModalTitle.textContent = 'Add Menu Item';
+}
+
+async function saveRestaurant(e) {
+  e.preventDefault();
+  
+  const restaurantData = {
+    name: document.getElementById('restaurantName').value,
+    cuisine: document.getElementById('restaurantCuisine').value,
+    address: document.getElementById('restaurantAddress').value,
+    rating: parseFloat(document.getElementById('restaurantRating').value),
+    delivery_time: document.getElementById('restaurantDeliveryTime').value
+  };
+
+  // When creating a new restaurant, set the owner to the current user
+  if (!editingRestaurantId) {
+    restaurantData.owner_id = currentUser.id;
+  }
+
+  try {
+    const method = editingRestaurantId ? 'PUT' : 'POST';
+    const url = editingRestaurantId 
+      ? `${API_URL}/restaurants/${editingRestaurantId}` 
+      : `${API_URL}/restaurants`;
+
+    const response = await fetch(url, {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(restaurantData)
+    });
+
+    if (response.ok) {
+      alert(editingRestaurantId ? 'Restaurant updated!' : 'Restaurant created!');
+      closeRestaurantModal();
+      loadOwnerRestaurants();
+      loadOwnerMenuItems();
+    } else {
+      alert('Error saving restaurant');
+    }
+  } catch (error) {
+    console.error('Error saving restaurant:', error);
+    alert('Error saving restaurant: ' + error.message);
+  }
+}
+
+async function saveMenuItem(e) {
+  e.preventDefault();
+  
+  if (!ownerRestaurants.length) {
+    alert('Please create a restaurant first');
+    return;
+  }
+
+  const menuItemData = {
+    name: document.getElementById('menuItemName').value,
+    description: document.getElementById('menuItemDescription').value,
+    price: parseFloat(document.getElementById('menuItemPrice').value),
+    image_url: document.getElementById('menuItemImageUrl').value,
+    restaurant_id: ownerRestaurants[0].id // Use first restaurant for now
+  };
+
+  try {
+    const method = editingMenuItemId ? 'PUT' : 'POST';
+    const url = editingMenuItemId 
+      ? `${API_URL}/menu-items/${editingMenuItemId}` 
+      : `${API_URL}/menu-items`;
+
+    const response = await fetch(url, {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(menuItemData)
+    });
+
+    if (response.ok) {
+      alert(editingMenuItemId ? 'Menu item updated!' : 'Menu item created!');
+      closeMenuItemModal();
+      loadOwnerMenuItems();
+    } else {
+      alert('Error saving menu item');
+    }
+  } catch (error) {
+    console.error('Error saving menu item:', error);
+    alert('Error saving menu item: ' + error.message);
+  }
+}
+
+async function deleteRestaurant(restaurantId) {
+  // Verify ownership before deleting (unless admin)
+  if (currentUser.role !== 'admin') {
+    const restaurant = ownerRestaurants.find(r => r.id === restaurantId);
+    if (!restaurant) {
+      alert('You do not have permission to delete this restaurant');
+      return;
+    }
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/restaurants/${restaurantId}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      alert('Restaurant deleted!');
+      loadOwnerRestaurants();
+      loadOwnerMenuItems();
+    } else {
+      alert('Error deleting restaurant');
+    }
+  } catch (error) {
+    console.error('Error deleting restaurant:', error);
+    alert('Error deleting restaurant: ' + error.message);
+  }
+}
+
+async function deleteMenuItem(menuItemId) {
+  // Verify ownership before deleting (unless admin)
+  if (currentUser.role !== 'admin') {
+    const menuItem = ownerMenuItems.find(m => m.id === menuItemId);
+    if (!menuItem) {
+      alert('You do not have permission to delete this menu item');
+      return;
+    }
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/menu-items/${menuItemId}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      alert('Menu item deleted!');
+      loadOwnerMenuItems();
+    } else {
+      alert('Error deleting menu item');
+    }
+  } catch (error) {
+    console.error('Error deleting menu item:', error);
+    alert('Error deleting menu item: ' + error.message);
+  }
+}
+
+function attachOwnerEventListeners() {
+  addRestaurantBtn.addEventListener('click', () => {
+    editingRestaurantId = null;
+    restaurantForm.reset();
+    restaurantModalTitle.textContent = 'Add Restaurant';
+    restaurantModal.classList.add('active');
+  });
+
+  addMenuItemBtn.addEventListener('click', () => {
+    editingMenuItemId = null;
+    menuItemForm.reset();
+    menuItemModalTitle.textContent = 'Add Menu Item';
+    menuItemModal.classList.add('active');
+  });
+
+  restaurantForm.addEventListener('submit', saveRestaurant);
+  menuItemForm.addEventListener('submit', saveMenuItem);
 }
 
 // ==================== INITIALIZATION ====================
