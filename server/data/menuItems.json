@@ -1,50 +1,17 @@
 [
-  {
-    "id": 1,
-    "restaurant_id": 1,
-    "name": "Margherita Pizza",
-    "description": "Classic tomato sauce, mozzarella, fresh basil",
-    "price": 12.99,
-    "image_url": "https://via.placeholder.com/200x150?text=Margherita"
-  },
-  {
-    "id": 2,
-    "restaurant_id": 1,
-    "name": "Pepperoni Pizza",
-    "description": "Tomato sauce, mozzarella, pepperoni",
-    "price": 14.99,
-    "image_url": "https://via.placeholder.com/200x150?text=Pepperoni"
-  },
-  {
-    "id": 3,
-    "restaurant_id": 2,
-    "name": "Classic Cheeseburger",
-    "description": "Beef patty, cheddar, lettuce, tomato, pickles",
-    "price": 10.99,
-    "image_url": "https://via.placeholder.com/200x150?text=Cheeseburger"
-  },
-  {
-    "id": 4,
-    "restaurant_id": 2,
-    "name": "Bacon BBQ Burger",
-    "description": "Beef patty, bacon, BBQ sauce, onion rings",
-    "price": 13.99,
-    "image_url": "https://via.placeholder.com/200x150?text=BBQ+Burger"
-  },
-  {
-    "id": 5,
-    "restaurant_id": 3,
-    "name": "Salmon Roll",
-    "description": "Fresh salmon, cucumber, avocado, sushi rice",
-    "price": 16.99,
-    "image_url": "https://via.placeholder.com/200x150?text=Salmon+Roll"
-  },
-  {
-    "id": 6,
-    "restaurant_id": 3,
-    "name": "Dragon Roll",
-    "description": "Shrimp tempura, cucumber, avocado on top",
-    "price": 18.99,
-    "image_url": "https://via.placeholder.com/200x150?text=Dragon+Roll"
-  }
+  { "id": 1, "restaurant_id": 1, "name": "Margherita Pizza", "description": "Classic tomato sauce, mozzarella, fresh basil", "price": 12.99, "image_url": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=300", "category": "Pizza" },
+  { "id": 2, "restaurant_id": 1, "name": "Pepperoni Pizza", "description": "Tomato sauce, mozzarella, pepperoni", "price": 14.99, "image_url": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300", "category": "Pizza" },
+  { "id": 3, "restaurant_id": 1, "name": "BBQ Chicken Pizza", "description": "BBQ sauce, grilled chicken, red onions, cilantro", "price": 15.99, "image_url": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300", "category": "Pizza" },
+  { "id": 4, "restaurant_id": 1, "name": "Garlic Bread", "description": "Toasted bread with garlic butter and herbs", "price": 4.99, "image_url": "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=300", "category": "Sides" },
+  { "id": 5, "restaurant_id": 2, "name": "Classic Cheeseburger", "description": "Beef patty, cheddar, lettuce, tomato, pickles", "price": 10.99, "image_url": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300", "category": "Burgers" },
+  { "id": 6, "restaurant_id": 2, "name": "Bacon BBQ Burger", "description": "Beef patty, bacon, BBQ sauce, onion rings", "price": 13.99, "image_url": "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=300", "category": "Burgers" },
+  { "id": 7, "restaurant_id": 2, "name": "Veggie Burger", "description": "Plant-based patty, avocado, sprouts, tomato", "price": 11.99, "image_url": "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=300", "category": "Burgers" },
+  { "id": 8, "restaurant_id": 2, "name": "Fries", "description": "Crispy golden fries with seasoning", "price": 3.99, "image_url": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300", "category": "Sides" },
+  { "id": 9, "restaurant_id": 3, "name": "Salmon Roll", "description": "Fresh salmon, cucumber, avocado, sushi rice", "price": 16.99, "image_url": "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=300", "category": "Rolls" },
+  { "id": 10, "restaurant_id": 3, "name": "Dragon Roll", "description": "Shrimp tempura, cucumber, avocado on top", "price": 18.99, "image_url": "https://images.unsplash.com/photo-1559410545-0bdcd187e0a6?w=300", "category": "Rolls" },
+  { "id": 11, "restaurant_id": 3, "name": "Miso Soup", "description": "Traditional miso broth with tofu and seaweed", "price": 3.99, "image_url": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300", "category": "Sides" },
+  { "id": 12, "restaurant_id": 4, "name": "Beef Tacos", "description": "Three tacos with seasoned beef, salsa, and cheese", "price": 9.99, "image_url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300", "category": "Tacos" },
+  { "id": 13, "restaurant_id": 4, "name": "Chicken Burrito", "description": "Grilled chicken, rice, beans, sour cream wrapped in flour tortilla", "price": 11.99, "image_url": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=300", "category": "Burritos" },
+  { "id": 14, "restaurant_id": 5, "name": "Chicken Tikka Masala", "description": "Tender chicken in rich tomato-cream sauce", "price": 14.99, "image_url": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300", "category": "Mains" },
+  { "id": 15, "restaurant_id": 5, "name": "Garlic Naan", "description": "Freshly baked flatbread with garlic and butter", "price": 3.49, "image_url": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300", "category": "Bread" }
 ]

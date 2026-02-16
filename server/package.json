@@ -1,7 +1,6 @@
 {
   "name": "foodist-server",
   "version": "1.0.0",
-  "description": "Foodist backend API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
