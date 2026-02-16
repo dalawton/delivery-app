@@ -62,7 +62,6 @@ router.post('/', async (req, res) => {
   // ── 4. Payment passed — save it to payments.json ──────────────────────────
   const payments = readPayments();
 
-  // Generate a new ID (just increment from the last one)
   const newId = payments.length > 0 ? payments[payments.length - 1].id + 1 : 1;
 
   const newPayment = {
@@ -78,9 +77,9 @@ router.post('/', async (req, res) => {
   payments.push(newPayment);
   writePayments(payments);
 
-  // ── 5. Send back confirmation ─────────────────────────────────────────────
+  // ── 5. Send back order confirmed message ──────────────────────────────────
   return res.status(201).json({
-    message:        'Payment successful!',
+    message:        'Order confirmed! Your food is being prepared.',
     payment_id:     newPayment.id,
     transaction_id: newPayment.transaction_id,
     status:         newPayment.status,
@@ -91,7 +90,6 @@ router.post('/', async (req, res) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/payments/order/:orderId
 // Gets the payment details for a specific order.
-// Called when a customer wants to see their payment confirmation.
 // ─────────────────────────────────────────────────────────────────────────────
 router.get('/order/:orderId', (req, res) => {
   const orderId = parseInt(req.params.orderId);
