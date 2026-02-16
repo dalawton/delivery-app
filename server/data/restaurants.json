@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Pizza Palace",
+    "cuisine": "Italian",
+    "address": "789 Broadway, New York, NY",
+    "image_url": "https://via.placeholder.com/300x200?text=Pizza+Palace",
+    "rating": 4.5,
+    "delivery_time": "30-45 min"
+  },
+  {
+    "id": 2,
+    "name": "Burger Barn",
+    "cuisine": "American",
+    "address": "321 5th Ave, New York, NY",
+    "image_url": "https://via.placeholder.com/300x200?text=Burger+Barn",
+    "rating": 4.2,
+    "delivery_time": "20-35 min"
+  },
+  {
+    "id": 3,
+    "name": "Sushi World",
+    "cuisine": "Japanese",
+    "address": "654 Park Ave, New York, NY",
+    "image_url": "https://via.placeholder.com/300x200?text=Sushi+World",
+    "rating": 4.8,
+    "delivery_time": "40-55 min"
+  }
+]
