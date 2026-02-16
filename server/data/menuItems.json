@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "restaurant_id": 1,
+    "name": "Margherita Pizza",
+    "description": "Classic tomato sauce, mozzarella, fresh basil",
+    "price": 12.99,
+    "image_url": "https://via.placeholder.com/200x150?text=Margherita"
+  },
+  {
+    "id": 2,
+    "restaurant_id": 1,
+    "name": "Pepperoni Pizza",
+    "description": "Tomato sauce, mozzarella, pepperoni",
+    "price": 14.99,
+    "image_url": "https://via.placeholder.com/200x150?text=Pepperoni"
+  },
+  {
+    "id": 3,
+    "restaurant_id": 2,
+    "name": "Classic Cheeseburger",
+    "description": "Beef patty, cheddar, lettuce, tomato, pickles",
+    "price": 10.99,
+    "image_url": "https://via.placeholder.com/200x150?text=Cheeseburger"
+  },
+  {
+    "id": 4,
+    "restaurant_id": 2,
+    "name": "Bacon BBQ Burger",
+    "description": "Beef patty, bacon, BBQ sauce, onion rings",
+    "price": 13.99,
+    "image_url": "https://via.placeholder.com/200x150?text=BBQ+Burger"
+  },
+  {
+    "id": 5,
+    "restaurant_id": 3,
+    "name": "Salmon Roll",
+    "description": "Fresh salmon, cucumber, avocado, sushi rice",
+    "price": 16.99,
+    "image_url": "https://via.placeholder.com/200x150?text=Salmon+Roll"
+  },
+  {
+    "id": 6,
+    "restaurant_id": 3,
+    "name": "Dragon Roll",
+    "description": "Shrimp tempura, cucumber, avocado on top",
+    "price": 18.99,
+    "image_url": "https://via.placeholder.com/200x150?text=Dragon+Roll"
+  }
+]
