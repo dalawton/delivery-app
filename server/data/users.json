@@ -3,18 +3,80 @@
     "id": 1,
     "name": "John Doe",
     "email": "john@example.com",
-    "password": "hashed_password_123",
-    "phone": "555-1234",
-    "address": "123 Main St, New York, NY",
+    "password": "$2b$10$Kf7Zp3sLmNqR8tUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEf",
+    "phone": "555-123-4567",
+    "address": "123 Main St, New York, NY 10001",
+    "role": "customer",
     "created_at": "2026-01-01T00:00:00Z"
   },
   {
     "id": 2,
     "name": "Jane Smith",
     "email": "jane@example.com",
-    "password": "hashed_password_456",
-    "phone": "555-5678",
-    "address": "456 Oak Ave, Brooklyn, NY",
+    "password": "$2b$10$Tg6Hk9LmNoPqRsTuVwXyZaBcDeFgHiJkLmNoPqRsTuVwXyZaBcDe",
+    "phone": "555-987-6543",
+    "address": "456 Oak Ave, Brooklyn, NY 11201",
+    "role": "admin",
     "created_at": "2026-01-05T00:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Michael Johnson",
+    "email": "michael.johnson92@gmail.com",
+    "password": "$2b$10$Uj8Lp3QrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIj",
+    "phone": "917-555-2234",
+    "address": "789 Pine St, Queens, NY 11375",
+    "role": "customer",
+    "created_at": "2026-01-10T14:22:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Emily Davis",
+    "email": "emily.davis.work@outlook.com",
+    "password": "$2b$10$Gh7IjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdE",
+    "phone": "718-555-7789",
+    "address": "321 Maple Ave, Bronx, NY 10463",
+    "role": "customer",
+    "created_at": "2026-01-12T09:41:00Z"
+  },
+  {
+    "id": 5,
+    "name": "Daniel Martinez",
+    "email": "daniel.martinez87@yahoo.com",
+    "password": "$2b$10$ZxCvBnMqRsTuVwXyZaBcDeFgHiJkLmNoPqRsTuVwXyZaBcDeFgHi",
+    "phone": "646-555-4412",
+    "address": "654 Cedar Rd, Staten Island, NY 10314",
+    "role": "delivery_driver",
+    "created_at": "2026-01-15T18:05:00Z"
+  },
+  {
+    "id": 6,
+    "name": "Sophia Wilson",
+    "email": "sophia.wilson.dev@gmail.com",
+    "password": "$2b$10$AbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYz",
+    "phone": "201-555-9087",
+    "address": "1122 Birch Blvd, Hoboken, NJ 07030",
+    "role": "customer",
+    "created_at": "2026-01-18T11:32:00Z"
+  },
+  {
+    "id": 7,
+    "name": "James Anderson",
+    "email": "j.anderson23@icloud.com",
+    "password": "$2b$10$MnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKl",
+    "phone": "551-555-6677",
+    "address": "3344 Walnut St, Jersey City, NJ 07302",
+    "role": "customer",
+    "created_at": "2026-01-20T16:47:00Z"
+  },
+  {
+    "id": 8,
+    "name": "Olivia Thompson",
+    "email": "olivia.thompson.design@gmail.com",
+    "password": "$2b$10$QrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOp",
+    "phone": "973-555-8821",
+    "address": "5566 Spruce St, Newark, NJ 07102",
+    "role": "customer",
+    "created_at": "2026-01-22T20:15:00Z"
   }
 ]
