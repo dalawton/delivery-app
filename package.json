@@ -1,23 +1,30 @@
 {
-  "name": "foodist-delivery-app",
+  "name": "foodist-json-backend",
   "version": "1.0.0",
-  "description": "Food delivery application with frontend and backend",
+  "description": "JSON-based authentication backend - Team DAAB!",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "node server/index.js",
-    "dev": "concurrently \"npm run server\" \"npm start\"",
-    "client": "node server.js"
+    "dev": "nodemon server.js"
   },
-  "keywords": ["delivery", "food", "restaurant"],
-  "author": "",
+  "keywords": [
+    "food-delivery",
+    "authentication",
+    "jwt",
+    "json-database"
+  ],
+  "author": "Team DAAB! - Aramata, Adi, Bridgette, Danielle",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
-    "node-fetch": "^2.6.7"
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5"
   },
   "devDependencies": {
-    "concurrently": "^7.0.0"
+    "nodemon": "^3.0.1"
   }
 }

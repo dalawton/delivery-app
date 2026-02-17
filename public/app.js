@@ -8,6 +8,7 @@ const icons = {
 
 // App State
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+let authToken = localStorage.getItem('authToken') || null;
 let restaurants = [];
 let currentRestaurant = null;
 let userOrders = [];
@@ -17,6 +18,16 @@ let ownerRestaurants = [];
 let ownerMenuItems = [];
 let editingRestaurantId = null;
 let editingMenuItemId = null;
+
+// ==================== AUTH HELPERS ====================
+
+function getAuthHeaders() {
+  const headers = { 'Content-Type': 'application/json' };
+  if (authToken) {
+    headers['Authorization'] = `Bearer ${authToken}`;
+  }
+  return headers;
+}
 
 // DOM Elements
 let authScreen, mainApp, authContent, authSubtitle;
@@ -253,8 +264,15 @@ function renderRegistrationForm(role) {
       });
       
       if (response.ok) {
-        const user = await response.json();
+        const data = await response.json();
+        const user = data.user || data;
+        // Ensure user has role field for display
+        if (!user.role) user.role = 'customer';
         currentUser = user;
+        if (data.token) {
+          authToken = data.token;
+          localStorage.setItem('authToken', authToken);
+        }
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         showMainApp();
       } else {
@@ -305,11 +323,15 @@ function renderLoginForm() {
       
       if (response.ok) {
         const data = await response.json();
-        // Handle server response format: { message, user: {...} }
+        // Handle server response format: { message, user: {...}, token: "..." }
         const user = data.user || data;
         // Ensure user has role field for display
         if (!user.role) user.role = 'customer';
         currentUser = user;
+        if (data.token) {
+          authToken = data.token;
+          localStorage.setItem('authToken', authToken);
+        }
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         showMainApp();
       } else {
@@ -327,8 +349,10 @@ function renderLoginForm() {
 function logout() {
   if (confirm('Are you sure you want to logout?')) {
     currentUser = null;
+    authToken = null;
     cart = [];
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
     localStorage.removeItem('cart');
     showAuthScreen();
   }
@@ -377,7 +401,7 @@ async function createOrder(orderData) {
   try {
     const response = await fetch(`${API_URL}/orders`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(orderData)
     });
     if (response.ok) {
@@ -1031,7 +1055,7 @@ async function saveRestaurant(e) {
 
     const response = await fetch(url, {
       method: method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(restaurantData)
     });
 
@@ -1073,7 +1097,7 @@ async function saveMenuItem(e) {
 
     const response = await fetch(url, {
       method: method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(menuItemData)
     });
 
@@ -1102,7 +1126,8 @@ async function deleteRestaurant(restaurantId) {
 
   try {
     const response = await fetch(`${API_URL}/restaurants/${restaurantId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: getAuthHeaders()
     });
 
     if (response.ok) {
@@ -1130,7 +1155,8 @@ async function deleteMenuItem(menuItemId) {
 
   try {
     const response = await fetch(`${API_URL}/menu-items/${menuItemId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: getAuthHeaders()
     });
 
     if (response.ok) {

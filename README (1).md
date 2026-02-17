@@ -1,6 +1,12 @@
-# delivery-app
-CIS 453 Model Project
-**Team DAAB!** 
+# 🔐 JSON Database Authentication Backend
+**Team DAAB!** - No MongoDB Required!
+
+## ✨ What Changed
+
+**Before:** MongoDB database  
+**Now:** JSON files (perfect for your project!)
+
+All user data is stored in `./data/users.json`
 
 ## 📁 File Structure
 
