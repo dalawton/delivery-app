@@ -37,9 +37,9 @@ let cartItemsContainer, cartFooter, cartTotal;
 let checkoutBtn, checkoutModal, checkoutForm, cancelCheckout;
 let searchInput, userName, userRole, logoutBtn, ordersBtn;
 let backToRestaurantsBtn, restaurantDetailSection, browseSection, ordersSection;
-let ownerDashboard, ownerRestaurantsList, ownerMenuItemsList, addRestaurantBtn, addMenuItemBtn;
-let restaurantModal, restaurantForm, restaurantModalTitle;
-let menuItemModal, menuItemForm, menuItemModalTitle;
+let ownerDashboard, ownerRestaurantsList, ownerMenuItemsList, addRestaurantBtn, addMenuItemBtn, exitOwnerBtn;
+let restaurantModal, restaurantForm, restaurantModalTitle, closeRestaurantModalBtn;
+let menuItemModal, menuItemForm, menuItemModalTitle, menuItemRestaurant, closeMenuItemModalBtn;
 let navTabs;
 
 function initializeDOM() {
@@ -84,14 +84,18 @@ function initializeDOM() {
   ownerMenuItemsList = document.getElementById('ownerMenuItemsList');
   addRestaurantBtn = document.getElementById('addRestaurantBtn');
   addMenuItemBtn = document.getElementById('addMenuItemBtn');
+  exitOwnerBtn = document.getElementById('exitOwnerBtn');
   
   restaurantModal = document.getElementById('restaurantModal');
   restaurantForm = document.getElementById('restaurantForm');
   restaurantModalTitle = document.getElementById('restaurantModalTitle');
+  closeRestaurantModalBtn = document.getElementById('closeRestaurantModalBtn');
   
   menuItemModal = document.getElementById('menuItemModal');
   menuItemForm = document.getElementById('menuItemForm');
   menuItemModalTitle = document.getElementById('menuItemModalTitle');
+  menuItemRestaurant = document.getElementById('menuItemRestaurant');
+  closeMenuItemModalBtn = document.getElementById('closeMenuItemModalBtn');
   
   navTabs = document.getElementById('navTabs');
 }
@@ -173,7 +177,7 @@ function renderRoleSelection() {
           <p>Order food from restaurants</p>
         </div>
       </div>
-      <div class="role-card" data-role="restaurant">
+      <div class="role-card" data-role="restaurant_owner">
         <div class="role-icon">${icons.store}</div>
         <div class="role-info">
           <h3>Restaurant Owner</h3>
@@ -840,6 +844,16 @@ function attachEventListeners() {
   cancelCheckout.addEventListener('click', () => toggleModal(false));
   checkoutForm.addEventListener('submit', handleCheckout);
   
+  // Exit owner mode button
+  exitOwnerBtn.addEventListener('click', () => {
+    ownerDashboard.classList.remove('active');
+    browseSection.classList.add('active');
+    navTabs.style.display = 'flex';
+    searchInput.parentElement.style.display = 'flex';
+    cartBtn.style.display = 'block';
+    loadRestaurants();
+  });
+  
   // Back to restaurants button
   backToRestaurantsBtn.addEventListener('click', () => {
     restaurantDetailSection.classList.remove('active');
@@ -996,6 +1010,16 @@ function renderOwnerMenuItems() {
   });
 }
 
+function populateRestaurantDropdown() {
+  if (!ownerRestaurants.length) {
+    menuItemRestaurant.innerHTML = '<option value="">No restaurants available. Create one first.</option>';
+    return;
+  }
+  
+  menuItemRestaurant.innerHTML = '<option value="">Select a restaurant...</option>' + 
+    ownerRestaurants.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+}
+
 function editRestaurant(restaurant) {
   editingRestaurantId = restaurant.id;
   restaurantModalTitle.textContent = 'Edit Restaurant';
@@ -1014,6 +1038,11 @@ function editMenuItem(item) {
   document.getElementById('menuItemDescription').value = item.description || '';
   document.getElementById('menuItemPrice').value = item.price;
   document.getElementById('menuItemImageUrl').value = item.image_url || '';
+  
+  // Populate restaurant dropdown and select the correct one
+  populateRestaurantDropdown();
+  menuItemRestaurant.value = item.restaurant_id;
+  
   menuItemModal.classList.add('active');
 }
 
@@ -1076,8 +1105,9 @@ async function saveRestaurant(e) {
 async function saveMenuItem(e) {
   e.preventDefault();
   
-  if (!ownerRestaurants.length) {
-    alert('Please create a restaurant first');
+  const selectedRestaurantId = parseInt(menuItemRestaurant.value);
+  if (!selectedRestaurantId) {
+    alert('Please select a restaurant');
     return;
   }
 
@@ -1086,7 +1116,7 @@ async function saveMenuItem(e) {
     description: document.getElementById('menuItemDescription').value,
     price: parseFloat(document.getElementById('menuItemPrice').value),
     image_url: document.getElementById('menuItemImageUrl').value,
-    restaurant_id: ownerRestaurants[0].id // Use first restaurant for now
+    restaurant_id: selectedRestaurantId
   };
 
   try {
@@ -1183,11 +1213,15 @@ function attachOwnerEventListeners() {
     editingMenuItemId = null;
     menuItemForm.reset();
     menuItemModalTitle.textContent = 'Add Menu Item';
+    populateRestaurantDropdown();
     menuItemModal.classList.add('active');
   });
 
   restaurantForm.addEventListener('submit', saveRestaurant);
   menuItemForm.addEventListener('submit', saveMenuItem);
+  
+  closeRestaurantModalBtn.addEventListener('click', closeRestaurantModal);
+  closeMenuItemModalBtn.addEventListener('click', closeMenuItemModal);
 }
 
 // ==================== INITIALIZATION ====================

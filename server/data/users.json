@@ -3,28 +3,40 @@
     "id": 1,
     "name": "John Doe",
     "email": "john@example.com",
-    "password": "hashed_password_123",
+    "password": "$2a$12$cxLbIb4ldnQY9H3GmSkzFOxTFnWLUpQQOpiHIWhLktV5.QRdfMa.m",
     "phone": "555-1234",
     "address": "123 Main St, New York, NY",
+    "role": "admin",
     "created_at": "2026-01-01T00:00:00Z"
   },
   {
     "id": 2,
     "name": "Jane Smith",
     "email": "jane@example.com",
-    "password": "hashed_password_456",
+    "password": "$2a$12$cxLbIb4ldnQY9H3GmSkzFOxTFnWLUpQQOpiHIWhLktV5.QRdfMa.m",
     "phone": "555-5678",
     "address": "456 Oak Ave, Brooklyn, NY",
+    "role": "customer",
     "created_at": "2026-01-05T00:00:00Z"
   },
   {
     "id": 3,
     "name": "Test User",
     "email": "test@example.com",
-    "password": "$2a$12$Bw7cBS3ISj6NwG8mceRfb.pEZwY6dYuERttbN9mUdQWYhWVJYNrwq",
+    "password": "$2a$12$cxLbIb4ldnQY9H3GmSkzFOxTFnWLUpQQOpiHIWhLktV5.QRdfMa.m",
     "phone": "555-1234",
     "address": "",
     "role": "customer",
     "created_at": "2026-02-17T02:33:13.919Z"
+  },
+  {
+    "id": 4,
+    "name": "Test Rest Owner",
+    "email": "owner@gmail.com",
+    "password": "$2a$12$cxLbIb4ldnQY9H3GmSkzFOxTFnWLUpQQOpiHIWhLktV5.QRdfMa.m",
+    "phone": "1234567890",
+    "address": "",
+    "role": "restaurant_owner",
+    "created_at": "2026-02-17T20:48:14.033Z"
   }
 ]

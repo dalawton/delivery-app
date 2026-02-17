@@ -110,6 +110,11 @@
 
     <!-- Restaurant Owner Dashboard -->
     <div class="content-section" id="ownerDashboard">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0;">Restaurant Management</h2>
+        <button class="btn btn-secondary" id="exitOwnerBtn" style="padding: 10px 20px; font-size: 14px;">← Exit Owner Mode</button>
+      </div>
+      
       <!-- Manage Restaurants Section -->
       <div id="manageRestaurantsSection">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
@@ -211,7 +216,7 @@
           <input type="text" id="restaurantDeliveryTime" required>
         </div>
         <div class="modal-buttons">
-          <button type="button" class="btn btn-secondary" onclick="closeRestaurantModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="closeRestaurantModalBtn">Cancel</button>
           <button type="submit" class="btn btn-primary">Save Restaurant</button>
         </div>
       </form>
@@ -223,6 +228,12 @@
     <div class="modal-content">
       <h2 id="menuItemModalTitle">Add Menu Item</h2>
       <form id="menuItemForm">
+        <div class="form-group">
+          <label for="menuItemRestaurant">Restaurant</label>
+          <select id="menuItemRestaurant" required>
+            <option value="">Select a restaurant...</option>
+          </select>
+        </div>
         <div class="form-group">
           <label for="menuItemName">Item Name</label>
           <input type="text" id="menuItemName" required>
@@ -240,7 +251,7 @@
           <input type="text" id="menuItemImageUrl" placeholder="https://...">
         </div>
         <div class="modal-buttons">
-          <button type="button" class="btn btn-secondary" onclick="closeMenuItemModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="closeMenuItemModalBtn">Cancel</button>
           <button type="submit" class="btn btn-primary">Save Menu Item</button>
         </div>
       </form>
