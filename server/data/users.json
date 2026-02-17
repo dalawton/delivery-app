@@ -16,5 +16,15 @@
     "phone": "555-5678",
     "address": "456 Oak Ave, Brooklyn, NY",
     "created_at": "2026-01-05T00:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Test User",
+    "email": "test@example.com",
+    "password": "$2a$12$Bw7cBS3ISj6NwG8mceRfb.pEZwY6dYuERttbN9mUdQWYhWVJYNrwq",
+    "phone": "555-1234",
+    "address": "",
+    "role": "customer",
+    "created_at": "2026-02-17T02:33:13.919Z"
   }
 ]
