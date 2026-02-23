@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Test Customer",
+    "email": "customer@test.com",
+    "password": "$2a$12$gCAaAQV5NslBB5i3DTbOweSEgi8AeH0i2GU1lFA2Gf4Tuvb.ocPPW",
+    "role": "customer",
+    "phone": "555-0101",
+    "address": "123 Main St",
+    "created_at": "2026-02-23T22:36:56.249Z",
+    "isActive": true,
+    "savedAddresses": []
+  },
+  {
+    "id": 2,
+    "name": "Test Restaurant",
+    "email": "restaurant@test.com",
+    "password": "$2a$12$xdqwfdyQ1VqKsUFymBYyk./YYXbvOkfyHGIw6kz4iGrjKuaA9QcpW",
+    "role": "restaurant",
+    "phone": "555-0102",
+    "address": "456 Oak Ave",
+    "created_at": "2026-02-23T22:36:56.249Z",
+    "isActive": true,
+    "savedAddresses": []
+  },
+  {
+    "id": 3,
+    "name": "Jane Updated",
+    "email": "test_1771886216217@example.com",
+    "password": "$2a$12$mAOXw4i7wDQzmkPjAO0sV.WzKvIoUGEb9E63g97VPife1ntLRUj5y",
+    "phone": "",
+    "address": "",
+    "role": "customer",
+    "created_at": "2026-02-23T22:36:57.017Z",
+    "isActive": false,
+    "savedAddresses": []
+  }
+]
